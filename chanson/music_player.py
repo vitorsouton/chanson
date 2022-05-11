@@ -26,19 +26,21 @@ class MusicPlayer(spotipy.Spotify):
         self.user_id = self.current_user()['id']
         self.playlist_uri = None
         self.playlist_id = None
+        self.playlist_name = None
         self.tracks_uri = None
         self.seeds = None
         self.recommendations_uri = None
         self.liked_songs = None
 
 
-    def get_playlist_uri(self):
+    def get_playlist_info(self):
         playlists = self.current_user_playlists()['items']
 
         for n in range(len(playlists)):
             if playlists[n]['name'].upper() == 'chanson'.upper():
                 self.playlist_uri = playlists[n]['uri']
                 self.playlist_id = playlists[n]['id']
+                self.playlist_name = playlists[n]['name']
 
 
     def get_tracks_uri(self):
@@ -77,7 +79,7 @@ class MusicPlayer(spotipy.Spotify):
 
 if __name__ == '__main__':
     sp = MusicPlayer('vitorrubr')
-    sp.get_playlist_uri()
+    sp.get_playlist_info()
     sp.get_tracks_uri()
     sp.clean_playlist()
     sp.get_recommendations_uri()
