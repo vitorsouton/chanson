@@ -1,6 +1,6 @@
 import spotipy
 
-from spotipy.oauth2 import SpotifyOAuth
+from spotipy.oauth2 import SpotifyPKCE
 from dotenv import find_dotenv, load_dotenv
 from random import sample
 
@@ -21,7 +21,7 @@ class MusicPlayer(spotipy.Spotify):
                  'user-library-read',
                  'user-top-read'
                  ]
-        self.auth = SpotifyOAuth(scope=scope, open_browser=True,
+        self.auth = SpotifyPKCE(scope=scope, open_browser=True,
                                  cache_path=cache_path)
         super().__init__(auth_manager=self.auth)
         self.user_id = self.current_user()['id']
