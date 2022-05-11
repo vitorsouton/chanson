@@ -11,7 +11,10 @@ def index():
 def get_info():
     username = request.form.get('campoUsername')
     sp = MusicPlayer(username)
-    sp.get_playlist_info()
+
+    info = sp.get_playlist_info()
+    if info is None:
+        sp.create_custom_playlist()
     sp.get_tracks_uri()
     sp.clean_playlist()
     sp.get_recommendations_uri()
