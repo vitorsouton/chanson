@@ -58,4 +58,4 @@ pypi:
 #              RUN
 # ----------------------------------
 run:
-	@python chanson/app.py
+	@gunicorn wsgi:app

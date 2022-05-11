@@ -1,6 +1,7 @@
 import spotipy
 
-from spotipy.oauth2 import SpotifyPKCE
+# from spotipy.oauth2 import SpotifyPKCE
+from app.auth_backup.oauth2 import SpotifyPKCE
 from dotenv import find_dotenv, load_dotenv
 from random import sample
 
@@ -12,7 +13,7 @@ class MusicPlayer(spotipy.Spotify):
         load_dotenv(env_path)
 
 
-        cache_path = f'./chanson/users/.cache-{username}'
+        cache_path = f'./app/users/.cache-{username}'
 
         scope = ["playlist-read-private",
                  "playlist-read-collaborative",
