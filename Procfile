@@ -1,1 +1,1 @@
-web: sh python chanson/app.py
+web: sh make run
