@@ -1,1 +1,1 @@
-web: sh make run
+web: sh setup.sh && flask run

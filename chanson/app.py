@@ -1,7 +1,7 @@
 import os
 
 from flask import Flask, render_template, request
-from music_player import MusicPlayer
+from chanson.music_player import MusicPlayer
 
 app = Flask(__name__)
 
