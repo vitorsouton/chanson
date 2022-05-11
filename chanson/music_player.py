@@ -18,7 +18,8 @@ class MusicPlayer(spotipy.Spotify):
                  "playlist-read-collaborative",
                  "playlist-modify-public",
                  "playlist-modify-private",
-                 'user-library-read'
+                 'user-library-read',
+                 'user-top-read'
                  ]
         self.auth = SpotifyOAuth(scope=scope, open_browser=True,
                                  cache_path=cache_path)
@@ -41,6 +42,19 @@ class MusicPlayer(spotipy.Spotify):
                 self.playlist_uri = playlists[n]['uri']
                 self.playlist_id = playlists[n]['id']
                 self.playlist_name = playlists[n]['name']
+
+        return self.playlist_uri
+
+
+    def create_custom_playlist(self):
+        self.user_playlist_create(self.user_id, 'Chanson', public=False,
+                                  collaborative=False)
+        self.get_playlist_info()
+        top_tracks = self.current_user_top_tracks(limit=5,
+                                                  time_range='short_term')['items']
+        top_tracks_uri = [top_tracks[n]['uri'] for n in range(len(top_tracks))]
+
+        self.playlist_add_items(self.playlist_uri, top_tracks_uri)
 
 
     def get_tracks_uri(self):
@@ -79,7 +93,9 @@ class MusicPlayer(spotipy.Spotify):
 
 if __name__ == '__main__':
     sp = MusicPlayer('vitorrubr')
-    sp.get_playlist_info()
+    info = sp.get_playlist_info()
+    if info is None:
+        sp.create_custom_playlist()
     sp.get_tracks_uri()
     sp.clean_playlist()
     sp.get_recommendations_uri()
