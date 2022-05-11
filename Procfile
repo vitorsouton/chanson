@@ -1,1 +1,1 @@
-web: sh setup.sh && flask run
+web: gunicorn wsgi:app

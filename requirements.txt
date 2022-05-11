@@ -8,3 +8,4 @@ wheel>=0.29
 spotipy
 python-dotenv
 flask
+gunicorn
