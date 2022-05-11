@@ -7,3 +7,4 @@ wheel>=0.29
 # what makes it work
 spotipy
 python-dotenv
+flask
