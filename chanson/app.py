@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, render_template, request
 from music_player import MusicPlayer
 
@@ -27,4 +29,5 @@ def get_info():
 
 
 if __name__ == '__main__':
-    Flask.run(app)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(debug=True, host='0.0.0.0', port=port)
