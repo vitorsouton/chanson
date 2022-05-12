@@ -8,3 +8,4 @@ raw_data/
 .env
 /app/users/*
 !/app/users/.gitkeep
+/.flask_session/*
