@@ -1,30 +1,13 @@
 import spotipy
 
-# from spotipy.oauth2 import SpotifyPKCE
-from app.auth_backup.oauth2 import SpotifyOAuth
-from dotenv import find_dotenv, load_dotenv
 from random import sample
 
 
 class MusicPlayer(spotipy.Spotify):
 
-    def __init__(self, username):
-        env_path = find_dotenv()
-        load_dotenv(env_path)
+    def __init__(self, auth):
 
-
-        cache_path = f'./app/users/.cache-{username}'
-
-        scope = ["playlist-read-private",
-                 "playlist-read-collaborative",
-                 "playlist-modify-public",
-                 "playlist-modify-private",
-                 'user-library-read',
-                 'user-top-read'
-                 ]
-        self.auth = SpotifyOAuth(scope=scope, open_browser=True,
-                                 cache_path=cache_path)
-        super().__init__(auth_manager=self.auth)
+        super().__init__(auth_manager=auth)
         self.user_id = self.current_user()['id']
         self.playlist_uri = None
         self.playlist_id = None
@@ -93,7 +76,7 @@ class MusicPlayer(spotipy.Spotify):
 
 
 if __name__ == '__main__':
-    sp = MusicPlayer('vitorrubr')
+    sp = MusicPlayer()
     info = sp.get_playlist_info()
     if info is None:
         sp.create_custom_playlist()
