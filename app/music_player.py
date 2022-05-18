@@ -46,6 +46,27 @@ class MusicPlayer(spotipy.Spotify):
         self.tracks_uri = [tracks[n]['track']['uri'] for n in range(len(tracks))]
 
 
+    def remove_liked_duplicates(self):
+        template = []
+        dups = {}
+        to_remove = []
+        for i, uri in enumerate(self.tracks_uri):
+            if uri not in template:
+                template.append(uri)
+            else:
+                dups['uri'] = uri
+                dups['positions'] = [i]
+                to_remove.append(dups)
+
+            dups = {}
+
+        self.user_playlist_remove_specific_occurrences_of_tracks(
+            self.user_id,
+            self.playlist_id,
+            to_remove
+        )
+
+
     def clean_playlist(self):
         liked_status = self.current_user_saved_tracks_contains(self.tracks_uri)
 
@@ -78,9 +99,8 @@ class MusicPlayer(spotipy.Spotify):
 if __name__ == '__main__':
     sp = MusicPlayer()
     info = sp.get_playlist_info()
-    if info is None:
-        sp.create_custom_playlist()
     sp.get_tracks_uri()
     sp.clean_playlist()
+    sp.remove_liked_duplicates()
     sp.get_recommendations_uri()
     sp.add_songs_to_playlist()

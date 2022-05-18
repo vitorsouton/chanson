@@ -70,6 +70,7 @@ def done():
         sp.create_custom_playlist()
     sp.get_tracks_uri()
     sp.clean_playlist()
+    sp.remove_liked_duplicates()
     sp.get_recommendations_uri()
     sp.add_songs_to_playlist()
 
