@@ -68,18 +68,23 @@ class MusicPlayer(spotipy.Spotify):
 
 
     def clean_playlist(self):
-        liked_status = self.current_user_saved_tracks_contains(self.tracks_uri)
+        size = len(self.tracks_uri)
+        buckets = size // 50
 
-        unliked_songs = []
-        for track, liked in zip(self.tracks_uri, liked_status):
-            if liked is False:
-                unliked_songs.append(track)
+        for x in range(buckets+1):
+            tracks_to_check = self.tracks_uri[x*50 : (x+1)*50]
+            liked_status = self.current_user_saved_tracks_contains(tracks_to_check)
 
-        self.user_playlist_remove_all_occurrences_of_tracks(
-            self.user_id,
-            self.playlist_id,
-            unliked_songs
-        )
+            unliked_songs = []
+            for track, liked in zip(self.tracks_uri, liked_status):
+                if liked is False:
+                    unliked_songs.append(track)
+
+            self.user_playlist_remove_all_occurrences_of_tracks(
+                self.user_id,
+                self.playlist_id,
+                unliked_songs
+            )
 
 
     def get_recommendations_uri(self, n_recoms=10):
